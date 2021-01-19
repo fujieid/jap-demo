@@ -32,6 +32,10 @@
         <!--<hr class="my-4">
         <a class="btn btn-info" href="https://gitee.com/yadong.zhang/JustAuth" target="_blank" role="button">Gitee <img src="https://gitee.com/yadong.zhang/JustAuth/badge/star.svg?theme=gvp" alt="star"></a>
         <a class="btn btn-info" href="https://github.com/zhangyd-c/JustAuth" target="_blank" role="button">Github <img src="https://img.shields.io/github/stars/zhangyd-c/JustAuth.svg?style=social" alt="github"></a>-->
+        <a class="btn btn-info" href="/logout" role="button">退出</a>
+        <span th:if="${strategy} ne null" class="ml-2">
+            当前登录使用的策略：<span class="badge badge-light" th:text="${strategy}"></span>
+        </span>
     </div>
 
     <div class="row mt-3">
@@ -50,7 +54,7 @@
                             <ul class="list-unstyled mb-0 pl-2">
                                 <li>
                                     <img src="https://cdn.jsdelivr.net/gh/justauth/justauth-oauth-logo@1.5/gitee.png" alt="" style="width: 20px;position: relative;top: -2px;;" class="mr-1">
-                                    <a target="_blank" href="http://127.0.0.1:8443/social/login/gitee">Gitee 登录</a>
+                                    <a href="/social/login/gitee">Gitee 登录</a>
                                 </li>
                             </ul>
                         </div>
@@ -69,7 +73,26 @@
                             <ul class="list-unstyled mb-0 pl-2">
                                 <li>
                                     <img src="https://console.fujieid.com/static/picture/logo.png" alt="" style="width: 20px;position: relative;top: -2px;;" class="mr-1">
-                                    <a target="_blank" href="http://127.0.0.1:8443/oauth2/login/jai">Jai 登录(JAP)</a>
+                                    <a href="/oauth2/login/jai">Jai 登录(JAP)</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header p-2" id="oidcHeader">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left text-secondary collapsed" type="button" data-toggle="collapse" data-target="#oicContainer" aria-expanded="false" aria-controls="oicContainer">
+                                <i class="fas fa-coffee mr-2"></i>jsp-oidc
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="oicContainer" class="collapse" aria-labelledby="oidcHeader" data-parent="#accordionExample">
+                        <div class="card-body p-2">
+                            <ul class="list-unstyled mb-0 pl-2">
+                                <li>
+                                    <img src="https://console.fujieid.com/static/picture/logo.png" alt="" style="width: 20px;position: relative;top: -2px;;" class="mr-1">
+                                    <a href="/oidc/login/jai">Jai OIDC 登录(JAP)</a>
                                 </li>
                             </ul>
                         </div>

@@ -30,6 +30,7 @@ public class SocialController {
 
     @RequestMapping("/login/gitee")
     public void renderAuth(HttpServletRequest request, HttpServletResponse response) {
+        request.getSession().setAttribute("strategy", "social");
         SocialStrategy socialStrategy = new SocialStrategy(japUserService, new JapConfig()
                 .setOptions(AuthConfig.builder()
                         .clientId("3d4df5b080492af847d4eb3aa2abdcaf11ae29b312beb46520fb7972553a9158")
