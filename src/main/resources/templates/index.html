@@ -42,14 +42,32 @@
         <div class="col col-4">
             <div class="accordion" id="accordionExample">
                 <div class="card">
+                    <div class="card-header p-2" id="simpleHeader">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left text-secondary" type="button" data-toggle="collapse" data-target="#simpleContainer" aria-expanded="true" aria-controls="simpleContainer">
+                                <i class="fas fa-coffee mr-2"></i>jsp-simple
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="simpleContainer" class="collapse show" aria-labelledby="simpleHeader" data-parent="#accordionExample">
+                        <div class="card-body p-2">
+                            <ul class="list-unstyled mb-0 pl-2">
+                                <li>
+                                    <a href="/simple/login">账号密码登录</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
                     <div class="card-header p-2" id="socialHeader">
                         <h2 class="mb-0">
-                            <button class="btn btn-link btn-block text-left text-secondary" type="button" data-toggle="collapse" data-target="#socialContainer" aria-expanded="true" aria-controls="socialContainer">
+                            <button class="btn btn-link btn-block text-left text-secondary collapsed" type="button" data-toggle="collapse" data-target="#socialContainer" aria-expanded="false" aria-controls="socialContainer">
                                 <i class="fas fa-coffee mr-2"></i>jsp-social
                             </button>
                         </h2>
                     </div>
-                    <div id="socialContainer" class="collapse show" aria-labelledby="socialHeader" data-parent="#accordionExample">
+                    <div id="socialContainer" class="collapse" aria-labelledby="socialHeader" data-parent="#accordionExample">
                         <div class="card-body p-2">
                             <ul class="list-unstyled mb-0 pl-2">
                                 <li>
