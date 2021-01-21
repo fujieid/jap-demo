@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * 适用于 jap-social 模块，实现 getByPlatformAndUid 和 createAndGetSocialUser 方法
+ * 适用于 jap-social 模块，实现 getByPlatformAndUid 和 createAndGetSocialUser 方法，如果需要sso登录，则必须实现 getById 方法
  *
  * @author yadong.zhang (yadong.zhang0415(a)gmail.com)
  * @version 1.0.0
@@ -22,7 +22,21 @@ public class JapSocialUserServiceImpl implements JapUserService {
     /**
      * 模拟 DB 操作
      */
-    private static List<JapUser> userDatas = Lists.newArrayList();
+    private static final List<JapUser> userDatas = Lists.newArrayList();
+
+    /**
+     * 当启用 sso 功能时，该方法必须实现
+     *
+     * @param userId 用户id
+     * @return JapUser
+     */
+    @Override
+    public JapUser getById(String userId) {
+        return userDatas.stream()
+                .filter((user) -> user.getUserId().equals(userId))
+                .findFirst()
+                .orElse(null);
+    }
 
     /**
      * 根据第三方平台标识（platform）和第三方平台的用户 uid 查询数据库

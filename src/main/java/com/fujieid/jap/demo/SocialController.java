@@ -1,6 +1,5 @@
 package com.fujieid.jap.demo;
 
-import com.fujieid.jap.core.JapConfig;
 import com.fujieid.jap.core.JapUserService;
 import com.fujieid.jap.social.SocialConfig;
 import com.fujieid.jap.social.SocialStrategy;
@@ -31,11 +30,11 @@ public class SocialController {
     @RequestMapping("/login/gitee")
     public void renderAuth(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().setAttribute("strategy", "social");
-        SocialStrategy socialStrategy = new SocialStrategy(japUserService, new JapConfig()
+        SocialStrategy socialStrategy = new SocialStrategy(japUserService, JapConfigContext.getConfig()
                 .setOptions(AuthConfig.builder()
                         .clientId("3d4df5b080492af847d4eb3aa2abdcaf11ae29b312beb46520fb7972553a9158")
                         .clientSecret("e4c0746139e4111460c2d477b62dabb511a8a9df3d562adcf036e567bd2184d4")
-                        .redirectUri("http://127.0.0.1:8443/social/login/gitee")
+                        .redirectUri("http://sso.jap.com:8443/social/login/gitee")
                         .build()));
         SocialConfig config = new SocialConfig();
         // platform 参考 justauth#AuthDefaultSource

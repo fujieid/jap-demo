@@ -1,6 +1,5 @@
 package com.fujieid.jap.demo;
 
-import com.fujieid.jap.core.JapConfig;
 import com.fujieid.jap.core.JapUserService;
 import com.fujieid.jap.oauth2.Oauth2GrantType;
 import com.fujieid.jap.oauth2.Oauth2ResponseType;
@@ -33,7 +32,7 @@ public class OidcController {
     @RequestMapping("/login/jai")
     public void renderAuth(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.getSession().setAttribute("strategy", "oidc");
-        OidcStrategy oidcStrategy = new OidcStrategy(japUserService, new JapConfig());
+        OidcStrategy oidcStrategy = new OidcStrategy(japUserService, JapConfigContext.getConfig());
         OidcConfig config = new OidcConfig();
         config.setIssuer("https://xxx")
                 .setPlatform("jai")

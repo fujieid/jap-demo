@@ -33,8 +33,13 @@
         <a class="btn btn-info" href="https://gitee.com/yadong.zhang/JustAuth" target="_blank" role="button">Gitee <img src="https://gitee.com/yadong.zhang/JustAuth/badge/star.svg?theme=gvp" alt="star"></a>
         <a class="btn btn-info" href="https://github.com/zhangyd-c/JustAuth" target="_blank" role="button">Github <img src="https://img.shields.io/github/stars/zhangyd-c/JustAuth.svg?style=social" alt="github"></a>-->
         <a class="btn btn-info" href="/logout" role="button">退出</a>
+        <a class="btn btn-info" href="/enableSso" role="button">切换 Session / SSO（Cookie）</a>
         <span th:if="${strategy} ne null" class="ml-2">
             当前登录使用的策略：<span class="badge badge-light" th:text="${strategy}"></span>
+        </span>
+        <span class="ml-2">
+            <span class="badge badge-primary" th:if="${sso}" >启用 SSO</span>
+            <span class="badge badge-light" th:if="${!sso}" >启用 Session</span>
         </span>
     </div>
 

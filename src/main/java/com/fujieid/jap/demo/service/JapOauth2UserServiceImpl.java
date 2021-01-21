@@ -1,15 +1,15 @@
 package com.fujieid.jap.demo.service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.fujieid.jap.core.JapUser;
 import com.fujieid.jap.core.JapUserService;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
- * 适用于 jap-oauth2 模块，实现 getByPlatformAndUid 和 createAndGetSocialUser 方法
+ * 适用于 jap-oauth2 模块，实现 getByPlatformAndUid 和 createAndGetSocialUser 方法，如果需要sso登录，则必须实现 getById 方法
  *
  * @author yadong.zhang (yadong.zhang0415(a)gmail.com)
  * @version 1.0.0
@@ -22,7 +22,21 @@ public class JapOauth2UserServiceImpl implements JapUserService {
     /**
      * 模拟 DB 操作
      */
-    private static List<JapUser> userDatas = Lists.newArrayList();
+    private static final List<JapUser> userDatas = Lists.newArrayList();
+
+    /**
+     * 当启用 sso 功能时，该方法必须实现
+     *
+     * @param userId 用户id
+     * @return JapUser
+     */
+    @Override
+    public JapUser getById(String userId) {
+        return userDatas.stream()
+                .filter((user) -> user.getUserId().equals(userId))
+                .findFirst()
+                .orElse(null);
+    }
 
     /**
      * 根据第三方平台标识（platform）和第三方平台的用户 uid 查询数据库
@@ -45,9 +59,9 @@ public class JapOauth2UserServiceImpl implements JapUserService {
      * @return JapUser
      */
     @Override
-    public JapUser createAndGetOauth2User(String platform, JSONObject userInfo) {
+    public JapUser createAndGetOauth2User(String platform, Map<String, Object> userInfo) {
         // FIXME 注意：此处仅作演示用，不同的 oauth 平台用户id都不一样，此处需要开发者自己分析第三方平台的用户信息，提取出用户的唯一ID
-        String uid = userInfo.getString("userId");
+        String uid = (String) userInfo.get("userId");
         // 查询绑定关系，确定当前用户是否已经登录过业务系统
         JapUser japUser = this.getByPlatformAndUid(platform, uid);
         if (null == japUser) {

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * 适用于 jap-simple 模块，实现 getByName 和 validPassword 方法
+ * 适用于 jap-simple 模块，实现 getByName 和 validPassword 方法，如果需要sso登录，则必须实现 getById 方法
  *
  * @author yadong.zhang (yadong.zhang0415(a)gmail.com)
  * @version 1.0.0
@@ -25,10 +25,24 @@ public class JapSimpleUserServiceImpl implements JapUserService {
 
     static {
         // 模拟数据库中的数据
-        userDatas.add(new JapUser().setUsername("jap").setPassword("jap"));
+        userDatas.add(new JapUser().setUserId("1111").setUsername("jap").setPassword("jap"));
         for (int i = 0; i < 10; i++) {
-            userDatas.add(new JapUser().setUsername("jap" + i).setPassword("jap" + i));
+            userDatas.add(new JapUser().setUserId(i + "").setUsername("jap" + i).setPassword("jap" + i));
         }
+    }
+
+    /**
+     * 当启用 sso 功能时，该方法必须实现
+     *
+     * @param userId 用户id
+     * @return JapUser
+     */
+    @Override
+    public JapUser getById(String userId) {
+        return userDatas.stream()
+                .filter((user) -> user.getUserId().equals(userId))
+                .findFirst()
+                .orElse(null);
     }
 
     @Override

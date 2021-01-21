@@ -1,14 +1,12 @@
 package com.fujieid.jap.demo;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fujieid.jap.core.JapUser;
-import com.fujieid.jap.core.store.SessionJapUserStore;
+import com.fujieid.jap.core.store.JapUserStoreContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 @SpringBootApplication
 @Controller
@@ -38,19 +35,33 @@ public class JapDemoApplication implements ApplicationRunner {
 
     @RequestMapping
     public String index(Model model, HttpServletRequest request, HttpServletResponse response) {
-        JapUser japUser = new SessionJapUserStore().get(request, response);
+        toIndex(model, request, response);
+        return "index";
+    }
+
+    private void toIndex(Model model, HttpServletRequest request, HttpServletResponse response) {
+        JapUser japUser = JapUserStoreContextHolder.getStoreUser(request, response);
         if (null != japUser) {
             model.addAttribute("userJson", claimsToJson(japUser));
         }
         Object strategy = request.getSession().getAttribute("strategy");
+        Object sso = request.getSession().getAttribute("sso");
         model.addAttribute("strategy", strategy);
-        return "index";
+        model.addAttribute("sso", null == sso || Boolean.parseBoolean(String.valueOf(sso)));
     }
 
     @RequestMapping("/logout")
-    public String logout(HttpServletRequest request) {
-        new SessionJapUserStore().remove(request);
-        return "index";
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        JapUserStoreContextHolder.removeStoreUser(request, response);
+        return "redirect:/";
+    }
+
+    @RequestMapping("/enableSso")
+    public String enableSso(Model model, HttpServletRequest request, HttpServletResponse response) {
+        JapConfigContext.sso = !JapConfigContext.sso;
+        request.getSession().setAttribute("sso", JapConfigContext.sso);
+        toIndex(model, request, response);
+        return "redirect:/";
     }
 
     private String claimsToJson(JapUser japUser) {
@@ -59,7 +70,7 @@ public class JapDemoApplication implements ApplicationRunner {
             // null替换为""
             mapper.getSerializerProvider().setNullValueSerializer(new JsonSerializer<Object>() {
                 @Override
-                public void serialize(Object arg0, JsonGenerator arg1, SerializerProvider arg2) throws IOException, JsonProcessingException {
+                public void serialize(Object arg0, JsonGenerator arg1, SerializerProvider arg2) throws IOException {
                     arg1.writeString("");
                 }
             });

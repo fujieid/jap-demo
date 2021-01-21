@@ -1,6 +1,5 @@
 package com.fujieid.jap.demo;
 
-import com.fujieid.jap.core.JapConfig;
 import com.fujieid.jap.core.JapUserService;
 import com.fujieid.jap.oauth2.OAuthConfig;
 import com.fujieid.jap.oauth2.Oauth2GrantType;
@@ -33,7 +32,7 @@ public class Oauth2Controller {
     @RequestMapping("/login/jai")
     public void renderAuth(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.getSession().setAttribute("strategy", "oauth2");
-        Oauth2Strategy socialStrategy = new Oauth2Strategy(japUserService, new JapConfig());
+        Oauth2Strategy socialStrategy = new Oauth2Strategy(japUserService, JapConfigContext.getConfig());
         OAuthConfig config = new OAuthConfig();
         config.setPlatform("jai")
                 .setState(UuidUtils.getUUID())
