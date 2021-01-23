@@ -6,6 +6,7 @@ import com.fujieid.jap.oauth2.Oauth2GrantType;
 import com.fujieid.jap.oauth2.Oauth2ResponseType;
 import com.fujieid.jap.oauth2.Oauth2Strategy;
 import me.zhyd.oauth.utils.UuidUtils;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,15 +25,16 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping("/oauth2")
-public class Oauth2Controller {
+public class Oauth2Controller implements InitializingBean {
 
     @Resource(name = "oauth2")
     private JapUserService japUserService;
+    private Oauth2Strategy socialStrategy;
+
 
     @RequestMapping("/login/jai")
     public void renderAuth(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.getSession().setAttribute("strategy", "oauth2");
-        Oauth2Strategy socialStrategy = new Oauth2Strategy(japUserService, JapConfigContext.getConfig());
         OAuthConfig config = new OAuthConfig();
         config.setPlatform("jai")
                 .setState(UuidUtils.getUUID())
@@ -46,5 +48,10 @@ public class Oauth2Controller {
                 .setResponseType(Oauth2ResponseType.code)
                 .setGrantType(Oauth2GrantType.authorization_code);
         socialStrategy.authenticate(config, request, response);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        socialStrategy = new Oauth2Strategy(japUserService, JapConfigContext.getConfig());
     }
 }

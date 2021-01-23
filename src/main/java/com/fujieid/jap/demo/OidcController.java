@@ -6,6 +6,7 @@ import com.fujieid.jap.oauth2.Oauth2ResponseType;
 import com.fujieid.jap.oidc.OidcConfig;
 import com.fujieid.jap.oidc.OidcStrategy;
 import me.zhyd.oauth.utils.UuidUtils;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,15 +25,15 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping("/oidc")
-public class OidcController {
+public class OidcController implements InitializingBean {
 
     @Resource(name = "oauth2")
     private JapUserService japUserService;
+    private OidcStrategy oidcStrategy;
 
     @RequestMapping("/login/jai")
     public void renderAuth(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.getSession().setAttribute("strategy", "oidc");
-        OidcStrategy oidcStrategy = new OidcStrategy(japUserService, JapConfigContext.getConfig());
         OidcConfig config = new OidcConfig();
         config.setIssuer("https://xxx")
                 .setPlatform("jai")
@@ -44,5 +45,10 @@ public class OidcController {
                 .setResponseType(Oauth2ResponseType.code)
                 .setGrantType(Oauth2GrantType.authorization_code);
         oidcStrategy.authenticate(config, request, response);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        oidcStrategy = new OidcStrategy(japUserService, JapConfigContext.getConfig());
     }
 }
