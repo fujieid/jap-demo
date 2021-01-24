@@ -39,7 +39,7 @@ public class SimpleController implements InitializingBean {
 
     @PostMapping("/login")
     public void renderAuth(HttpServletRequest request, HttpServletResponse response) {
-        simpleStrategy.authenticate(new SimpleConfig(), request, response);
+        simpleStrategy.authenticate(new SimpleConfig("%0PcjotQ8QvfHdB#"), request, response);
     }
 
     @Override
@@ -47,14 +47,25 @@ public class SimpleController implements InitializingBean {
         simpleStrategy = new SimpleStrategy(japUserService, new JapConfig()
                 .setSso(true)
                 .setSsoConfig(new JapSsoConfig()
-                                      /*
-                                          将 domain 设置为 .jap.com 报错：
-                                          java.lang.IllegalArgumentException: An invalid domain [.jap.com] was specified for this cookie
-                                          参考解决方案：
-                                          https://gitee.com/baomidou/kisso/wikis/java.lang.IllegalArgumentException:-An-invalid-domain-%5B.x.com%5D-was-specified-for-this-cookie?sort_id=12454
-                                          高版本 8.5版本 + tomcat 对 cookie 处理机制变更，原来设置 .x.com 应该修改为 x.com
-                                       */
-                                      .setCookieDomain("jap.com")));
+                        /*
+                            将 domain 设置为 .jap.com 报错：
+                            java.lang.IllegalArgumentException: An invalid domain [.jap.com] was specified for this cookie
+                            参考解决方案：
+                            https://gitee.com/baomidou/kisso/wikis/java.lang.IllegalArgumentException:-An-invalid-domain-%5B.x.com%5D-was-specified-for-this-cookie?sort_id=12454
+                            高版本 8.5版本 + tomcat 对 cookie 处理机制变更，原来设置 .x.com 应该修改为 x.com
+                         */
+                        .setCookieDomain("jap.com")));
 
+    }
+
+    @GetMapping("/auth")
+    public void auth(HttpServletRequest request, HttpServletResponse response) {
+        simpleStrategy.authenticateCookie(new SimpleConfig("%0PcjotQ8QvfHdB#"), request, response);
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        simpleStrategy.cancelRememberMeCookie(new SimpleConfig("%0PcjotQ8QvfHdB#"), request, response);
+        return "login";
     }
 }

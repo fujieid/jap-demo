@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <title>jap-simple 登录示例</title>
 </head>
+<style>
+    div > a {
+        margin-left: 20px;
+    }
+</style>
 <body>
 
 <form action="/simple/login" method="post">
@@ -16,7 +21,13 @@
         <input type="text" name="password" id="password" value="jap">
     </div>
     <div>
+        <label for="password">记住我：</label>
+        <input type="checkbox" name="remember-me" id="remember-me" value="on">
+    </div>
+    <div>
         <input type="submit" value="登录">
+        <a href="/simple/auth">已登录？</a>
+        <a href="/simple/logout">退出</a>
     </div>
 </form>
 </body>
