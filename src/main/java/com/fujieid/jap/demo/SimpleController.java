@@ -2,6 +2,7 @@ package com.fujieid.jap.demo;
 
 import com.fujieid.jap.core.JapConfig;
 import com.fujieid.jap.core.JapUserService;
+import com.fujieid.jap.core.exception.JapUserException;
 import com.fujieid.jap.simple.SimpleConfig;
 import com.fujieid.jap.simple.SimpleStrategy;
 import com.fujieid.jap.sso.config.JapSsoConfig;
@@ -60,7 +61,7 @@ public class SimpleController implements InitializingBean {
 
     @GetMapping("/auth")
     public void auth(HttpServletRequest request, HttpServletResponse response) {
-        simpleStrategy.authenticateCookie(new SimpleConfig("%0PcjotQ8QvfHdB#"), request, response);
+        simpleStrategy.authenticate(new SimpleConfig("%0PcjotQ8QvfHdB#"), request, response);
     }
 
     @GetMapping("/logout")
