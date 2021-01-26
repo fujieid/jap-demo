@@ -37,7 +37,7 @@ public class SimpleController implements InitializingBean {
 
     @PostMapping("/login")
     public void renderAuth(HttpServletRequest request, HttpServletResponse response) {
-        simpleStrategy.authenticate(new SimpleConfig(), request, response);
+        simpleStrategy.authenticate(new SimpleConfig("%0PcjotQ8QvfHdB#"), request, response);
     }
 
     /**
@@ -49,5 +49,16 @@ public class SimpleController implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         simpleStrategy = new SimpleStrategy(japUserService, JapConfigContext.getConfig());
 
+    }
+
+    @GetMapping("/auth")
+    public void auth(HttpServletRequest request, HttpServletResponse response) {
+        simpleStrategy.authenticate(new SimpleConfig("%0PcjotQ8QvfHdB#"), request, response);
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        simpleStrategy.cancelRememberMeCookie(new SimpleConfig("%0PcjotQ8QvfHdB#"), request, response);
+        return "login";
     }
 }
