@@ -2,7 +2,6 @@ package com.fujieid.jap.demo;
 
 import com.fujieid.jap.core.JapUserService;
 import com.fujieid.jap.oauth2.OAuthConfig;
-import com.fujieid.jap.oauth2.Oauth2GrantType;
 import com.fujieid.jap.oauth2.Oauth2ResponseType;
 import com.fujieid.jap.oauth2.Oauth2Strategy;
 import me.zhyd.oauth.utils.UuidUtils;
@@ -25,28 +24,28 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping("/oauth2")
-public class Oauth2Controller implements InitializingBean {
+public class Oauth2ImplicitGrantController implements InitializingBean {
 
     @Resource(name = "oauth2")
     private JapUserService japUserService;
     private Oauth2Strategy socialStrategy;
 
 
-    @RequestMapping("/login/jai")
+    @RequestMapping("/login/implicit/jai")
     public void renderAuth(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        request.getSession().setAttribute("strategy", "oauth2");
+        request.getSession().setAttribute("strategy", "oauth2_Implicit_Grant");
         OAuthConfig config = new OAuthConfig();
         config.setPlatform("jai")
                 .setState(UuidUtils.getUUID())
-                .setClientId("xxxx")
-                .setClientSecret("xxxx")
-                .setCallbackUrl("http://localhost:8443/oauth2/login/jai")
+                .setClientId("xxx")
+                .setClientSecret("xxx")
+                .setCallbackUrl("http://sso.jap.com:8443/oauth2/login/implicit/jai")
                 .setAuthorizationUrl("")
                 .setTokenUrl("")
                 .setUserinfoUrl("")
                 .setScopes(new String[]{"read", "write"})
-                .setResponseType(Oauth2ResponseType.code)
-                .setGrantType(Oauth2GrantType.authorization_code);
+                // 修改 ResponseType 为 Token 模式
+                .setResponseType(Oauth2ResponseType.token);
         socialStrategy.authenticate(config, request, response);
     }
 

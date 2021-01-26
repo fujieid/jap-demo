@@ -35,6 +35,7 @@ public class OidcController implements InitializingBean {
     public void renderAuth(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.getSession().setAttribute("strategy", "oidc");
         OidcConfig config = new OidcConfig();
+        // 配置 OIDC 的 Issue 链接
         config.setIssuer("https://xxx")
                 .setPlatform("jai")
                 .setState(UuidUtils.getUUID())
@@ -47,6 +48,11 @@ public class OidcController implements InitializingBean {
         oidcStrategy.authenticate(config, request, response);
     }
 
+    /**
+     * 初始化 bean 时对 SimpleStrategy 进行初始化，适用于启用了 SSO 的情况，如果没有启用 SSO，则非强制使用该方式初始化
+     *
+     * @throws Exception
+     */
     @Override
     public void afterPropertiesSet() throws Exception {
         oidcStrategy = new OidcStrategy(japUserService, JapConfigContext.getConfig());

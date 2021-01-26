@@ -40,6 +40,11 @@ public class SocialController implements InitializingBean {
         socialStrategy.authenticate(config, request, response);
     }
 
+    /**
+     * 初始化 bean 时对 SimpleStrategy 进行初始化，适用于启用了 SSO 的情况，如果没有启用 SSO，则非强制使用该方式初始化
+     *
+     * @throws Exception
+     */
     @Override
     public void afterPropertiesSet() throws Exception {
         socialStrategy = new SocialStrategy(japUserService, JapConfigContext.getConfig()

@@ -1,10 +1,8 @@
 package com.fujieid.jap.demo;
 
-import com.fujieid.jap.core.JapConfig;
 import com.fujieid.jap.core.JapUserService;
 import com.fujieid.jap.simple.SimpleConfig;
 import com.fujieid.jap.simple.SimpleStrategy;
-import com.fujieid.jap.sso.config.JapSsoConfig;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,19 +40,14 @@ public class SimpleController implements InitializingBean {
         simpleStrategy.authenticate(new SimpleConfig(), request, response);
     }
 
+    /**
+     * 初始化 bean 时对 SimpleStrategy 进行初始化，适用于启用了 SSO 的情况，如果没有启用 SSO，则非强制使用该方式初始化
+     *
+     * @throws Exception
+     */
     @Override
     public void afterPropertiesSet() throws Exception {
-        simpleStrategy = new SimpleStrategy(japUserService, new JapConfig()
-                .setSso(true)
-                .setSsoConfig(new JapSsoConfig()
-                                      /*
-                                          将 domain 设置为 .jap.com 报错：
-                                          java.lang.IllegalArgumentException: An invalid domain [.jap.com] was specified for this cookie
-                                          参考解决方案：
-                                          https://gitee.com/baomidou/kisso/wikis/java.lang.IllegalArgumentException:-An-invalid-domain-%5B.x.com%5D-was-specified-for-this-cookie?sort_id=12454
-                                          高版本 8.5版本 + tomcat 对 cookie 处理机制变更，原来设置 .x.com 应该修改为 x.com
-                                       */
-                                      .setCookieDomain("jap.com")));
+        simpleStrategy = new SimpleStrategy(japUserService, JapConfigContext.getConfig());
 
     }
 }

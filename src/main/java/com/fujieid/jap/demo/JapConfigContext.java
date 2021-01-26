@@ -17,7 +17,7 @@ public class JapConfigContext {
 
     public static JapConfig getConfig() {
         return new JapConfig()
-                .setSso(sso)
+                .setSso(true)
                 .setSsoConfig(new JapSsoConfig()
                         /*
                             将 domain 设置为 .jap.com 报错：

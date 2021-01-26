@@ -2,7 +2,9 @@ package com.fujieid.jap.demo.service;
 
 import com.fujieid.jap.core.JapUser;
 import com.fujieid.jap.core.JapUserService;
+import com.fujieid.jap.oauth2.helper.AccessToken;
 import com.google.common.collect.Lists;
+import com.xkcoding.json.JsonUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,7 +61,10 @@ public class JapOauth2UserServiceImpl implements JapUserService {
      * @return JapUser
      */
     @Override
-    public JapUser createAndGetOauth2User(String platform, Map<String, Object> userInfo) {
+    public JapUser createAndGetOauth2User(String platform, Map<String, Object> userInfo, Object tokenInfo) {
+        // FIXME 业务端可以对 tokenInfo 进行保存或其他操作
+        AccessToken accessToken = (AccessToken) tokenInfo;
+        System.out.println(JsonUtil.toJsonString(accessToken));
         // FIXME 注意：此处仅作演示用，不同的 oauth 平台用户id都不一样，此处需要开发者自己分析第三方平台的用户信息，提取出用户的唯一ID
         String uid = (String) userInfo.get("userId");
         // 查询绑定关系，确定当前用户是否已经登录过业务系统
