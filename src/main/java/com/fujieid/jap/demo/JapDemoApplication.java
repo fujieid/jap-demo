@@ -52,7 +52,7 @@ public class JapDemoApplication implements ApplicationRunner {
 
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
-        JapUserStoreContextHolder.removeStoreUser(request, response);
+        JapUserStoreContextHolder.logout(request, response);
         return "redirect:/";
     }
 

@@ -1,6 +1,8 @@
 package com.fujieid.jap.demo;
 
+import com.fujieid.jap.core.JapUser;
 import com.fujieid.jap.core.JapUserService;
+import com.fujieid.jap.core.store.JapUserStoreContextHolder;
 import com.fujieid.jap.simple.SimpleConfig;
 import com.fujieid.jap.simple.SimpleStrategy;
 import org.springframework.beans.factory.InitializingBean;
@@ -30,14 +32,19 @@ public class SimpleController implements InitializingBean {
     private SimpleStrategy simpleStrategy;
 
     @GetMapping("/login")
-    public String toLogin(HttpServletRequest request) {
+    public String toLogin(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().setAttribute("strategy", "simple");
+        JapUser japUser = JapUserStoreContextHolder.getStoreUser(request, response);
+        if (null != japUser) {
+            return "redirect:/";
+        }
         return "login";
     }
 
     @PostMapping("/login")
     public void renderAuth(HttpServletRequest request, HttpServletResponse response) {
-        simpleStrategy.authenticate(new SimpleConfig("%0PcjotQ8QvfHdB#"), request, response);
+        simpleStrategy.authenticate(new SimpleConfig()
+                .setRememberMeCookieDomain("jap.com"), request, response);
     }
 
     /**
@@ -48,17 +55,5 @@ public class SimpleController implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         simpleStrategy = new SimpleStrategy(japUserService, JapConfigContext.getConfig());
-
-    }
-
-    @GetMapping("/auth")
-    public void auth(HttpServletRequest request, HttpServletResponse response) {
-        simpleStrategy.authenticate(new SimpleConfig("%0PcjotQ8QvfHdB#"), request, response);
-    }
-
-    @GetMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response) {
-        simpleStrategy.cancelRememberMeCookie(new SimpleConfig("%0PcjotQ8QvfHdB#"), request, response);
-        return "login";
     }
 }
