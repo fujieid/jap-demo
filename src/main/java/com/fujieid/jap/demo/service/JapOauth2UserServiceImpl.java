@@ -2,7 +2,7 @@ package com.fujieid.jap.demo.service;
 
 import com.fujieid.jap.core.JapUser;
 import com.fujieid.jap.core.JapUserService;
-import com.fujieid.jap.oauth2.helper.AccessToken;
+import com.fujieid.jap.oauth2.token.AccessToken;
 import com.google.common.collect.Lists;
 import com.xkcoding.json.JsonUtil;
 import org.springframework.stereotype.Service;

@@ -37,6 +37,11 @@ public class SocialController implements InitializingBean {
         // 如果包含通过 justauth 自定义的第三方平台，则该值为实现 AuthSource 后的 getName() 值
         config.setPlatform("gitee");
         config.setState(UuidUtils.getUUID());
+        config.setJustAuthConfig(AuthConfig.builder()
+                .clientId("3d4df5b080492af847d4eb3aa2abdcaf11ae29b312beb46520fb7972553a9158")
+                .clientSecret("e4c0746139e4111460c2d477b62dabb511a8a9df3d562adcf036e567bd2184d4")
+                .redirectUri("http://sso.jap.com:8443/social/login/gitee")
+                .build());
         socialStrategy.authenticate(config, request, response);
     }
 
@@ -47,12 +52,7 @@ public class SocialController implements InitializingBean {
      */
     @Override
     public void afterPropertiesSet() throws Exception {
-        socialStrategy = new SocialStrategy(japUserService, JapConfigContext.getConfig()
-                .setOptions(AuthConfig.builder()
-                                      .clientId("3d4df5b080492af847d4eb3aa2abdcaf11ae29b312beb46520fb7972553a9158")
-                                      .clientSecret("e4c0746139e4111460c2d477b62dabb511a8a9df3d562adcf036e567bd2184d4")
-                                      .redirectUri("http://sso.jap.com:8443/social/login/gitee")
-                                      .build()));
+        socialStrategy = new SocialStrategy(japUserService, JapConfigContext.getConfig());
 
     }
 }
