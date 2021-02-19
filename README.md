@@ -1,37 +1,43 @@
 <p align="center">
-	<img src="https://images.gitee.com/uploads/images/2021/0115/230947_5eb9e00d_784199.png" width="300">
+	<img src="https://images.gitee.com/uploads/images/2021/0218/094114_99925b8b_784199.png" width="200">
 </p>
 <p align="center">
 	<strong>Just auth into any app</strong>
 </p>
 <p align="center">
-	<a target="_blank" href="https://gitee.com/fujieid/jap">
-		<img src="https://img.shields.io/badge/Maven%20Central-未发布到中央仓库-blue" ></img>
+	<a target="_blank" href="https://search.maven.org/search?q=jap">
+	  <img src="https://img.shields.io/badge/Maven%20Central-1.0.0-blue" ></img>
 	</a>
 	<a target="_blank" href="https://gitee.com/yadong.zhang/JustAuth/blob/master/LICENSE">
-		<img src="https://img.shields.io/badge/license-LGPL%203.0-red" ></img>
+	  <img src="https://img.shields.io/badge/license-LGPL%203.0-red" ></img>
 	</a>
 	<a target="_blank" href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">
-		<img src="https://img.shields.io/badge/JDK-1.8+-green.svg" ></img>
+	  <img src="https://img.shields.io/badge/JDK-1.8+-green.svg" ></img>
 	</a>
-	<a target="_blank" href="https://gitee.com/fujieid/jap" title="API文档">
-		<img src="https://img.shields.io/badge/Api%20Docs-未发布-orange" ></img>
+	<a target="_blank" href="https://apidoc.gitee.com/fujieid/jap" title="API文档">
+	  <img src="https://img.shields.io/badge/Api%20Docs-1.0.0-orange" ></img>
 	</a>
-	<a target="_blank" href="https://jap.fujieid.com" title="开发文档">
-		<img src="https://img.shields.io/badge/Docs-latest-blueviolet.svg" ></img>
+	<a target="_blank" href="https://justauth.plus" title="开发文档">
+	  <img src="https://img.shields.io/badge/Docs-latest-blueviolet.svg" ></img>
 	</a>
-    <a target="_blank" href='https://gitee.com/fujieid/jap/stargazers'>
-      <img src="https://gitee.com/fujieid/jap/badge/star.svg" alt='star'></img>
-    </a>
-    <a target="_blank" href='https://github.com/fujieid/jap/stargazers'>
-      <img src="https://img.shields.io/github/stars/fujieid/jap?style=social" alt='star'></img>
-    </a>
+  <a target="_blank" href="https://codecov.io/gh/fujieid/jap" title="开发codecov档">
+	  <img src="https://codecov.io/gh/fujieid/jap/branch/master/graph/badge.svg?token=WmfmgwxtnJ" ></img>
+	</a>
+  <a target="_blank" href="https://travis-ci.com/fujieid/jap" title="开发codecov档">
+	  <img src="https://travis-ci.com/fujieid/jap.svg?branch=master&status=passed" ></img>
+	</a>
+</p>
+<p align="center">
+  <img src="https://img.shields.io/badge/Gitee%20Stars-218-red?style=social&logo=git" ></img>
+  <a target="_blank" href='https://github.com/fujieid/jap/stargazers'>
+    <img src="https://img.shields.io/github/stars/fujieid/jap?style=social" alt='star'></img>
+  </a>
 </p>
 <p align="center">
 	<strong>开源地址：</strong> <a target="_blank" href='https://gitee.com/fujieid/jap'>Gitee</a> | <a target="_blank" href='https://github.com/fujieid/jap'>Github</a>
 </p>
 <p align="center">
-	<strong>官方网站：</strong> <a target="_blank" href='https://jap.fujieid.com'>https://jap.fujieid.com</a>
+	<strong>官方网站（Wiki）：</strong> <a target="_blank" href='https://justauth.plus'>https://justauth.plus</a>
 </p>
 
 ## 🎨 JAP 是什么？
