@@ -111,3 +111,12 @@ JAP 基于 LGPL 3.0 协议。商用分为以下两种情况：
 ## 🏘️ 加入社群
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/0119/163659_98474921_784199.png "屏幕截图.png")
+
+## 💹 关注统计
+
+<p align="center">
+    <a target="_blank" href='https://github.com/fujieid/jap'><img src="https://starchart.cc/fujieid/jap.svg"></a>
+</p>
+<a href="https://www.producthunt.com/posts/justauthplus?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-justauthplus" target="_blank">
+  <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=285597&theme=dark" alt="JustAuthPlus - Just auth into any app | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" />
+</a>
