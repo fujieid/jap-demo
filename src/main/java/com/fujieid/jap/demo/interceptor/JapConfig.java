@@ -23,13 +23,14 @@ public class JapConfig implements WebMvcConfigurer {
                 .excludePathPatterns(
                         "/", // 首页
                         "/logout", // 退出登录
-                        "/enableSso", //
-                        "/oauth2/**",
-                        "/oidc/**",
-                        "/social/**",
-                        "/simple/**",
-                        "/img/**",
-                        "/favicon.ico")
+                        "/enableSso", // 启用/关闭单点登录
+                        "/oauth2/**", // oauth 协议登录
+                        "/oidc/**", // oidc 协议登录
+                        "/social/**", // 第三方登录
+                        "/simple/**", // 账号密码登录
+                        "/img/**", // 图片资源
+                        "/favicon.ico" // icon
+                )
                 .addPathPatterns("/**");
     }
 }
