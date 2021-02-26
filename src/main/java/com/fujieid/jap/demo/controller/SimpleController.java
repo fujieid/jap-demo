@@ -1,8 +1,9 @@
-package com.fujieid.jap.demo;
+package com.fujieid.jap.demo.controller;
 
 import com.fujieid.jap.core.JapUser;
 import com.fujieid.jap.core.JapUserService;
 import com.fujieid.jap.core.store.JapUserStoreContextHolder;
+import com.fujieid.jap.demo.config.JapConfigContext;
 import com.fujieid.jap.simple.SimpleConfig;
 import com.fujieid.jap.simple.SimpleStrategy;
 import org.springframework.beans.factory.InitializingBean;

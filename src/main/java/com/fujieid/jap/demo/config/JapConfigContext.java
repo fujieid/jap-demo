@@ -1,4 +1,4 @@
-package com.fujieid.jap.demo;
+package com.fujieid.jap.demo.config;
 
 import com.fujieid.jap.core.JapConfig;
 import com.fujieid.jap.sso.config.JapSsoConfig;

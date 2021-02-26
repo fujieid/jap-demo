@@ -1,8 +1,10 @@
-package com.fujieid.jap.demo;
+package com.fujieid.jap.demo.controller;
 
 import com.fujieid.jap.core.JapUserService;
+import com.fujieid.jap.demo.config.JapConfigContext;
 import com.fujieid.jap.oauth2.OAuthConfig;
 import com.fujieid.jap.oauth2.Oauth2GrantType;
+import com.fujieid.jap.oauth2.Oauth2ResponseType;
 import com.fujieid.jap.oauth2.Oauth2Strategy;
 import me.zhyd.oauth.utils.UuidUtils;
 import org.springframework.beans.factory.InitializingBean;
@@ -24,32 +26,28 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping("/oauth2")
-public class Oauth2PasswordGrantController implements InitializingBean {
+public class Oauth2Controller implements InitializingBean {
 
     @Resource(name = "oauth2")
     private JapUserService japUserService;
     private Oauth2Strategy socialStrategy;
 
 
-    @RequestMapping("/login/password/jai")
+    @RequestMapping("/login/jai")
     public void renderAuth(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        request.getSession().setAttribute("strategy", "oauth2_password_Grant");
+        request.getSession().setAttribute("strategy", "oauth2");
         OAuthConfig config = new OAuthConfig();
         config.setPlatform("jai")
                 .setState(UuidUtils.getUUID())
-                .setClientId("xxx")
-                .setClientSecret("xxx")
-                .setCallbackUrl("http://sso.jap.com:8443/oauth2/login/password/jai")
-                // 密码模式，不需要授权端链接
-//                .setAuthorizationUrl("")
+                .setClientId("xxxx")
+                .setClientSecret("xxxx")
+                .setCallbackUrl("http://localhost:8443/oauth2/login/jai")
+                .setAuthorizationUrl("")
                 .setTokenUrl("")
                 .setUserinfoUrl("")
                 .setScopes(new String[]{"read", "write"})
-                // GrantType 设为 password
-                .setGrantType(Oauth2GrantType.password)
-                // 指定账号密码
-                .setUsername("xxx")
-                .setPassword("xxx");
+                .setResponseType(Oauth2ResponseType.code)
+                .setGrantType(Oauth2GrantType.authorization_code);
         socialStrategy.authenticate(config, request, response);
     }
 
