@@ -1,6 +1,7 @@
-package com.fujieid.jap.demo;
+package com.fujieid.jap.demo.controller;
 
 import com.fujieid.jap.core.JapUserService;
+import com.fujieid.jap.demo.config.JapConfigContext;
 import com.fujieid.jap.social.SocialConfig;
 import com.fujieid.jap.social.SocialStrategy;
 import me.zhyd.oauth.config.AuthConfig;

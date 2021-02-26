@@ -1,6 +1,7 @@
-package com.fujieid.jap.demo;
+package com.fujieid.jap.demo.controller;
 
 import com.fujieid.jap.core.JapUserService;
+import com.fujieid.jap.demo.config.JapConfigContext;
 import com.fujieid.jap.oauth2.OAuthConfig;
 import com.fujieid.jap.oauth2.Oauth2ResponseType;
 import com.fujieid.jap.oauth2.Oauth2Strategy;
