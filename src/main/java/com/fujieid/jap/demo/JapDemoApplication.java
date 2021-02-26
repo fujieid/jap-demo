@@ -45,9 +45,8 @@ public class JapDemoApplication implements ApplicationRunner {
             model.addAttribute("userJson", claimsToJson(japUser));
         }
         Object strategy = request.getSession().getAttribute("strategy");
-        Object sso = request.getSession().getAttribute("sso");
         model.addAttribute("strategy", strategy);
-        model.addAttribute("sso", null == sso || Boolean.parseBoolean(String.valueOf(sso)));
+        model.addAttribute("sso", JapConfigContext.sso);
     }
 
     @RequestMapping("/logout")
@@ -59,7 +58,6 @@ public class JapDemoApplication implements ApplicationRunner {
     @RequestMapping("/enableSso")
     public String enableSso(Model model, HttpServletRequest request, HttpServletResponse response) {
         JapConfigContext.sso = !JapConfigContext.sso;
-        request.getSession().setAttribute("sso", JapConfigContext.sso);
         toIndex(model, request, response);
         return "redirect:/";
     }

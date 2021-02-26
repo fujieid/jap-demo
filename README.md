@@ -55,7 +55,7 @@
 127.0.0.1 sso3.jap.com
 ```
 
-启动项目后，使用以上配置的任意域名 + 端口号访问。
+启动项目后，使用以上配置的任意域名 + 端口号访问，如：[http://sso.jap.com:8443](http://sso.jap.com:8443)
 
 更多使用帮助，请参考：
 
@@ -66,3 +66,6 @@
 - [使用 jap-sso](https://justauth.plus/quickstart/jap-sso.html) ： 实现单点登录
 - [使用 jap-mfa](https://justauth.plus/quickstart/jap-mfa.html) ： 实现多因素认证
 
+## 项目说明
+
+`JapApiController`为模拟的受保护的资源服务，登录前访问该类下的接口，会跳转到首页并提示“未登录”，登录后访问该类下的接口，可以正常访问

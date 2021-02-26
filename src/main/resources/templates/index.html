@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <title>JustAuth第三方登录软件</title>
+    <title>JAP统一登录认证软件</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.15.8/styles/monokai-sublime.min.css"/>
@@ -27,7 +27,7 @@
     </nav>
 
     <div class="jumbotron mt-2 p-4">
-        <h1 class="display-4">JA Plus</h1>
+        <h1 class="display-4">JAP统一登录认证软件</h1>
         <p class="lead">Just auth for any app</p>
         <!--<hr class="my-4">
         <a class="btn btn-info" href="https://gitee.com/yadong.zhang/JustAuth" target="_blank" role="button">Gitee <img src="https://gitee.com/yadong.zhang/JustAuth/badge/star.svg?theme=gvp" alt="star"></a>
@@ -42,6 +42,12 @@
             <span class="badge badge-light" th:if="${!sso}" >启用 Session</span>
         </span>
     </div>
+    <div class="alert alert-danger mb-2" id="errorMsg" role="alert"></div>
+    <div class="card">
+        <div class="card-body">
+            访问资源服务：<a href="/api/user">/api/user</a>，如果已登录，会正常跳转到 /api/user，如果未登录，会跳转回首页
+        </div>
+    </div>
 
     <div class="row mt-3">
         <div class="col col-4">
@@ -50,7 +56,7 @@
                     <div class="card-header p-2" id="simpleHeader">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left text-secondary" type="button" data-toggle="collapse" data-target="#simpleContainer" aria-expanded="true" aria-controls="simpleContainer">
-                                <i class="fas fa-coffee mr-2"></i>jsp-simple
+                                <i class="fas fa-coffee mr-2"></i>simple
                             </button>
                         </h2>
                     </div>
@@ -68,7 +74,7 @@
                     <div class="card-header p-2" id="socialHeader">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left text-secondary collapsed" type="button" data-toggle="collapse" data-target="#socialContainer" aria-expanded="false" aria-controls="socialContainer">
-                                <i class="fas fa-coffee mr-2"></i>jsp-social
+                                <i class="fas fa-coffee mr-2"></i>social
                             </button>
                         </h2>
                     </div>
@@ -87,7 +93,7 @@
                     <div class="card-header p-2" id="oauth2Header">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left text-secondary collapsed" type="button" data-toggle="collapse" data-target="#oauth2Container" aria-expanded="false" aria-controls="oauth2Container">
-                                <i class="fas fa-coffee mr-2"></i>jsp-oauth2
+                                <i class="fas fa-coffee mr-2"></i>oauth2
                             </button>
                         </h2>
                     </div>
@@ -95,13 +101,13 @@
                         <div class="card-body p-2">
                             <ul class="list-unstyled mb-0 pl-2">
                                 <li>
-                                    <a href="/oauth2/login/jai">1. 授权码模式登录(JAP)</a>
+                                    <a href="/oauth2/login/jai">1. 授权码模式登录</a>
                                 </li>
                                 <li>
-                                    <a href="/oauth2/login/implicit/jai">2. 隐式授权模式登录(JAP)</a>
+                                    <a href="/oauth2/login/implicit/jai">2. 隐式授权模式登录</a>
                                 </li>
                                 <li>
-                                    <a href="/oauth2/login/password/jai">3. 密码授权模式登录(JAP)</a>
+                                    <a href="/oauth2/login/password/jai">3. 密码授权模式登录</a>
                                 </li>
                             </ul>
                         </div>
@@ -111,7 +117,7 @@
                     <div class="card-header p-2" id="oidcHeader">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left text-secondary collapsed" type="button" data-toggle="collapse" data-target="#oicContainer" aria-expanded="false" aria-controls="oicContainer">
-                                <i class="fas fa-coffee mr-2"></i>jsp-oidc
+                                <i class="fas fa-coffee mr-2"></i>oidc
                             </button>
                         </h2>
                     </div>
@@ -119,7 +125,7 @@
                         <div class="card-body p-2">
                             <ul class="list-unstyled mb-0 pl-2">
                                 <li>
-                                    <a href="/oidc/login/jai">Jai OIDC 登录(JAP)</a>
+                                    <a href="/oidc/login/jai">OIDC 登录</a>
                                 </li>
                             </ul>
                         </div>
@@ -140,5 +146,17 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.4.0/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-
+<script>
+    function getUrlParam(key) {
+        var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return r[2]; return null;
+    }
+    var error = getUrlParam("error");
+    if(error) {
+        $("#errorMsg").html(decodeURIComponent(error));
+    } else {
+        $("#errorMsg").hide();
+    }
+</script>
 </html>
