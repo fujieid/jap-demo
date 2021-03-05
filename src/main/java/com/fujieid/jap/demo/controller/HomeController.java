@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fujieid.jap.core.JapUser;
-import com.fujieid.jap.core.store.JapUserStoreContextHolder;
+import com.fujieid.jap.core.context.JapAuthentication;
 import com.fujieid.jap.demo.config.JapConfigContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,18 +34,17 @@ public class HomeController {
     }
 
     private void toIndex(Model model, HttpServletRequest request, HttpServletResponse response) {
-        JapUser japUser = JapUserStoreContextHolder.getStoreUser(request, response);
+        JapUser japUser = JapAuthentication.getUser(request, response);
         if (null != japUser) {
             model.addAttribute("userJson", claimsToJson(japUser));
         }
-        Object strategy = request.getSession().getAttribute("strategy");
-        model.addAttribute("strategy", strategy);
+        model.addAttribute("strategy", JapConfigContext.strategy);
         model.addAttribute("sso", JapConfigContext.sso);
     }
 
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
-        JapUserStoreContextHolder.logout(request, response);
+        JapAuthentication.logout(request, response);
         return "redirect:/";
     }
 

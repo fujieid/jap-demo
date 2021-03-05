@@ -1,6 +1,6 @@
 package com.fujieid.jap.demo.config;
 
-import com.fujieid.jap.core.JapConfig;
+import com.fujieid.jap.core.config.JapConfig;
 import com.fujieid.jap.sso.config.JapSsoConfig;
 
 /**
@@ -14,6 +14,7 @@ import com.fujieid.jap.sso.config.JapSsoConfig;
 public class JapConfigContext {
 
     public static boolean sso = true;
+    public static String strategy = "";
 
     public static JapConfig getConfig() {
         return new JapConfig()

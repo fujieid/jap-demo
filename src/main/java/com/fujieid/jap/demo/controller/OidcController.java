@@ -1,7 +1,9 @@
 package com.fujieid.jap.demo.controller;
 
 import com.fujieid.jap.core.JapUserService;
+import com.fujieid.jap.core.result.JapResponse;
 import com.fujieid.jap.demo.config.JapConfigContext;
+import com.fujieid.jap.demo.util.ViewUtil;
 import com.fujieid.jap.oauth2.Oauth2GrantType;
 import com.fujieid.jap.oauth2.Oauth2ResponseType;
 import com.fujieid.jap.oidc.OidcConfig;
@@ -10,6 +12,7 @@ import me.zhyd.oauth.utils.UuidUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -33,20 +36,21 @@ public class OidcController implements InitializingBean {
     private OidcStrategy oidcStrategy;
 
     @RequestMapping("/login/jai")
-    public void renderAuth(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        request.getSession().setAttribute("strategy", "oidc");
+    public ModelAndView renderAuth(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        JapConfigContext.strategy = "oidc";
         OidcConfig config = new OidcConfig();
         // 配置 OIDC 的 Issue 链接
-        config.setIssuer("https://xxx")
+        config.setIssuer("xx")
                 .setPlatform("jai")
                 .setState(UuidUtils.getUUID())
-                .setClientId("xxx")
-                .setClientSecret("xxx")
-                .setCallbackUrl("http://localhost:8443/oidc/login/jai")
+                .setClientId("xx")
+                .setClientSecret("xx")
+                .setCallbackUrl("http://sso.jap.com:8443/oidc/login/jai")
                 .setScopes(new String[]{"read", "write"})
                 .setResponseType(Oauth2ResponseType.code)
                 .setGrantType(Oauth2GrantType.authorization_code);
-        oidcStrategy.authenticate(config, request, response);
+        JapResponse japResponse = oidcStrategy.authenticate(config, request, response);
+        return ViewUtil.getView(japResponse);
     }
 
     /**

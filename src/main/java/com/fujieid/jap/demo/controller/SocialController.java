@@ -1,7 +1,9 @@
 package com.fujieid.jap.demo.controller;
 
 import com.fujieid.jap.core.JapUserService;
+import com.fujieid.jap.core.result.JapResponse;
 import com.fujieid.jap.demo.config.JapConfigContext;
+import com.fujieid.jap.demo.util.ViewUtil;
 import com.fujieid.jap.social.SocialConfig;
 import com.fujieid.jap.social.SocialStrategy;
 import me.zhyd.oauth.config.AuthConfig;
@@ -9,6 +11,7 @@ import me.zhyd.oauth.utils.UuidUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -31,19 +34,20 @@ public class SocialController implements InitializingBean {
     private SocialStrategy socialStrategy;
 
     @RequestMapping("/login/gitee")
-    public void renderAuth(HttpServletRequest request, HttpServletResponse response) {
-        request.getSession().setAttribute("strategy", "social");
+    public ModelAndView renderAuth(HttpServletRequest request, HttpServletResponse response) {
+        JapConfigContext.strategy = "social";
         SocialConfig config = new SocialConfig();
         // platform 参考 justauth#AuthDefaultSource
         // 如果包含通过 justauth 自定义的第三方平台，则该值为实现 AuthSource 后的 getName() 值
         config.setPlatform("gitee");
         config.setState(UuidUtils.getUUID());
         config.setJustAuthConfig(AuthConfig.builder()
-                .clientId("3d4df5b080492af847d4eb3aa2abdcaf11ae29b312beb46520fb7972553a9158")
-                .clientSecret("e4c0746139e4111460c2d477b62dabb511a8a9df3d562adcf036e567bd2184d4")
+                .clientId("fda07d40917d6f040822d3fa01c8c75588c67d63132c3ddc5c66990342115ba9")
+                .clientSecret("016f88fbff2d178263c4060c46168f4937153120a310adc21980e7838b76e833")
                 .redirectUri("http://sso.jap.com:8443/social/login/gitee")
                 .build());
-        socialStrategy.authenticate(config, request, response);
+        JapResponse japResponse = socialStrategy.authenticate(config, request, response);
+        return ViewUtil.getView(japResponse);
     }
 
     /**

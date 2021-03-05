@@ -1,8 +1,8 @@
 package com.fujieid.jap.demo.interceptor;
 
 import cn.hutool.core.util.URLUtil;
-import com.fujieid.jap.core.JapUser;
-import com.fujieid.jap.core.store.JapUserStoreContextHolder;
+import com.fujieid.jap.core.context.JapAuthentication;
+import com.fujieid.jap.core.result.JapResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -25,8 +25,8 @@ public class JapInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.info(request.getRequestURI());
-        JapUser japUser = JapUserStoreContextHolder.getStoreUser(request, response);
-        if (null != japUser) {
+        JapResponse japResponse = JapAuthentication.checkUser(request, response);
+        if (japResponse.isSuccess()) {
             log.info("已登录");
             return true;
         }

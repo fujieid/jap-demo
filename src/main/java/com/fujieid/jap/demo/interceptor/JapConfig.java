@@ -21,15 +21,27 @@ public class JapConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(japInterceptor)
                 .excludePathPatterns(
-                        "/", // 首页
-                        "/logout", // 退出登录
-                        "/enableSso", // 启用/关闭单点登录
-                        "/oauth2/**", // oauth 协议登录
-                        "/oidc/**", // oidc 协议登录
-                        "/social/**", // 第三方登录
-                        "/simple/**", // 账号密码登录
-                        "/img/**", // 图片资源
-                        "/favicon.ico" // icon
+                        // 首页
+                        "/",
+                        // 退出登录
+                        "/logout",
+                        // 启用/关闭单点登录
+                        "/enableSso",
+                        // 校验 token
+                        "/checkToken",
+                        // oauth 协议登录
+                        "/oauth2/**",
+                        // oidc 协议登录
+                        "/oidc/**",
+                        "/test/**",
+                        // 第三方登录
+                        "/social/**",
+                        // 账号密码登录
+                        "/simple/**",
+                        // 图片资源
+                        "/img/**",
+                        // icon
+                        "/favicon.ico"
                 )
                 .addPathPatterns("/**");
     }

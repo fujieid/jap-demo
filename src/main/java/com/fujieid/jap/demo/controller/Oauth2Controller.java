@@ -1,7 +1,9 @@
 package com.fujieid.jap.demo.controller;
 
 import com.fujieid.jap.core.JapUserService;
+import com.fujieid.jap.core.result.JapResponse;
 import com.fujieid.jap.demo.config.JapConfigContext;
+import com.fujieid.jap.demo.util.ViewUtil;
 import com.fujieid.jap.oauth2.OAuthConfig;
 import com.fujieid.jap.oauth2.Oauth2GrantType;
 import com.fujieid.jap.oauth2.Oauth2ResponseType;
@@ -10,6 +12,7 @@ import me.zhyd.oauth.utils.UuidUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -30,25 +33,26 @@ public class Oauth2Controller implements InitializingBean {
 
     @Resource(name = "oauth2")
     private JapUserService japUserService;
-    private Oauth2Strategy socialStrategy;
+    private Oauth2Strategy oauth2Strategy;
 
 
     @RequestMapping("/login/jai")
-    public void renderAuth(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        request.getSession().setAttribute("strategy", "oauth2");
+    public ModelAndView renderAuth(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        JapConfigContext.strategy = "oauth2";
         OAuthConfig config = new OAuthConfig();
         config.setPlatform("jai")
                 .setState(UuidUtils.getUUID())
-                .setClientId("xxxx")
-                .setClientSecret("xxxx")
-                .setCallbackUrl("http://localhost:8443/oauth2/login/jai")
-                .setAuthorizationUrl("")
-                .setTokenUrl("")
-                .setUserinfoUrl("")
+                .setClientId("xx")
+                .setClientSecret("xx")
+                .setCallbackUrl("http://sso.jap.com:8443/oauth2/login/jai")
+                .setAuthorizationUrl("xx")
+                .setTokenUrl("xx")
+                .setUserinfoUrl("xx")
                 .setScopes(new String[]{"read", "write"})
                 .setResponseType(Oauth2ResponseType.code)
                 .setGrantType(Oauth2GrantType.authorization_code);
-        socialStrategy.authenticate(config, request, response);
+        JapResponse japResponse = oauth2Strategy.authenticate(config, request, response);
+        return ViewUtil.getView(japResponse);
     }
 
     /**
@@ -58,6 +62,6 @@ public class Oauth2Controller implements InitializingBean {
      */
     @Override
     public void afterPropertiesSet() throws Exception {
-        socialStrategy = new Oauth2Strategy(japUserService, JapConfigContext.getConfig());
+        oauth2Strategy = new Oauth2Strategy(japUserService, JapConfigContext.getConfig());
     }
 }
