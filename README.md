@@ -42,6 +42,13 @@
 	<strong>官方网站（Wiki）：</strong> <a target="_blank" href='https://justauth.plus'>https://justauth.plus</a>
 </p>
 
+
+## 可选 Demo
+
+- 普通示例项目：[jap-demo](https://gitee.com/fujieid/jap-demo)
+- 前后端分离项目示例：[jap-demo-vue](https://gitee.com/fujieid/jap-demo-vue)
+
+
 ## Demo 使用方式
 
 本 Demo 项目默认开启了 SSO 功能，所以需要提前配置 Hosts
