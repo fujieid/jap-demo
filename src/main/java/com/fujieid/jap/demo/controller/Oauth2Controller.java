@@ -4,10 +4,7 @@ import com.fujieid.jap.core.JapUserService;
 import com.fujieid.jap.core.result.JapResponse;
 import com.fujieid.jap.demo.config.JapConfigContext;
 import com.fujieid.jap.demo.util.ViewUtil;
-import com.fujieid.jap.oauth2.OAuthConfig;
-import com.fujieid.jap.oauth2.Oauth2GrantType;
-import com.fujieid.jap.oauth2.Oauth2ResponseType;
-import com.fujieid.jap.oauth2.Oauth2Strategy;
+import com.fujieid.jap.oauth2.*;
 import me.zhyd.oauth.utils.UuidUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,6 +48,34 @@ public class Oauth2Controller implements InitializingBean {
                 .setScopes(new String[]{"read", "write"})
                 .setResponseType(Oauth2ResponseType.code)
                 .setGrantType(Oauth2GrantType.authorization_code);
+        JapResponse japResponse = oauth2Strategy.authenticate(config, request, response);
+        return ViewUtil.getView(japResponse);
+    }
+
+    /**
+     * 针对部分平台的获取用户的api不是post请求方式的处理方案：通过 setUserInfoEndpointMethodType 指定 请求类型
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping("/login/gitlab")
+    public ModelAndView renderGitlab(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        JapConfigContext.strategy = "oauth2";
+        OAuthConfig config = new OAuthConfig();
+        config.setPlatform("gitlab")
+                .setState(UuidUtils.getUUID())
+                .setClientId("6a1a65a1ecf704e86d59cc86f56cd614de47d2ebc5e3ca0e0d339022a3616578")
+                .setClientSecret("127898bfa5e1f5f599b78d2033c1bcd39a21f9de00588ee1337146df670b93c8")
+                .setCallbackUrl("http://sso.jap.com:8443/oauth2/login/gitlab")
+                .setAuthorizationUrl("https://gitlab.com/oauth/authorize")
+                .setTokenUrl("https://gitlab.com/oauth/token")
+                .setUserinfoUrl("https://gitlab.com/api/v4/user")
+                .setScopes(new String[]{"read_user", "openid", "profile", "email"})
+                .setResponseType(Oauth2ResponseType.code)
+                .setGrantType(Oauth2GrantType.authorization_code)
+                .setUserInfoEndpointMethodType(Oauth2EndpointMethodType.GET);
         JapResponse japResponse = oauth2Strategy.authenticate(config, request, response);
         return ViewUtil.getView(japResponse);
     }
