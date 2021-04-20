@@ -3,10 +3,10 @@ package com.fujieid.jap.demo.service;
 import com.fujieid.jap.core.JapUser;
 import com.fujieid.jap.core.JapUserService;
 import com.fujieid.jap.oauth2.token.AccessToken;
-import com.google.common.collect.Lists;
 import com.xkcoding.json.JsonUtil;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +24,7 @@ public class JapOauth2UserServiceImpl implements JapUserService {
     /**
      * 模拟 DB 操作
      */
-    private static final List<JapUser> userDatas = Lists.newArrayList();
+    private static final List<JapUser> userDatas = new ArrayList<>();
 
     /**
      * 当启用 sso 功能时，该方法必须实现

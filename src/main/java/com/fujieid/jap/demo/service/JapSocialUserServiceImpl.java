@@ -2,10 +2,10 @@ package com.fujieid.jap.demo.service;
 
 import com.fujieid.jap.core.JapUser;
 import com.fujieid.jap.core.JapUserService;
-import com.google.common.collect.Lists;
 import me.zhyd.oauth.model.AuthUser;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +22,7 @@ public class JapSocialUserServiceImpl implements JapUserService {
     /**
      * 模拟 DB 操作
      */
-    private static final List<JapUser> userDatas = Lists.newArrayList();
+    private static final List<JapUser> userDatas = new ArrayList<>();
 
     /**
      * 当启用 sso 功能时，该方法必须实现
