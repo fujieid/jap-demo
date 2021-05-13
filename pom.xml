@@ -16,7 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <jap.version>1.0.1</jap.version>
+        <jap.version>1.0.2-SNAPSHOT</jap.version>
     </properties>
 
     <dependencies>
@@ -114,7 +114,7 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-http</artifactId>
-            <version>5.2.5</version>
+            <version>5.5.7</version>
         </dependency>
 
         <dependency>

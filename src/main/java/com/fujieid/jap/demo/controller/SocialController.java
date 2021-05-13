@@ -1,5 +1,7 @@
 package com.fujieid.jap.demo.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.fujieid.jap.core.JapUser;
 import com.fujieid.jap.core.JapUserService;
 import com.fujieid.jap.core.result.JapResponse;
 import com.fujieid.jap.demo.config.JapConfigContext;
@@ -7,6 +9,8 @@ import com.fujieid.jap.demo.util.ViewUtil;
 import com.fujieid.jap.social.SocialConfig;
 import com.fujieid.jap.social.SocialStrategy;
 import me.zhyd.oauth.config.AuthConfig;
+import me.zhyd.oauth.model.AuthToken;
+import me.zhyd.oauth.model.AuthUser;
 import me.zhyd.oauth.utils.UuidUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +51,34 @@ public class SocialController implements InitializingBean {
                 .redirectUri("http://sso.jap.com:8443/social/login/gitee")
                 .build());
         JapResponse japResponse = socialStrategy.authenticate(config, request, response);
+        if (japResponse.isSuccess() && !japResponse.isRedirectUrl()) {
+            JapUser japUser = (JapUser) japResponse.getData();
+            AuthUser authUser = (AuthUser) japUser.getAdditional();
+            AuthToken authToken = authUser.getToken();
+            // 测试获取用户信息的接口
+            try {
+                JapResponse userInfoRes = socialStrategy.getUserInfo(config, authToken);
+                System.out.println("通过 token 获取的用户信息：" + JSONObject.toJSONString(userInfoRes));
+            } catch (Exception e) {
+                System.err.println("通过 token 获取的用户信息出错：" + e.getMessage());
+            }
+
+            // 测试刷新令牌的接口
+            try {
+                JapResponse refreshRes = socialStrategy.refreshToken(config, authToken);
+                System.out.println("refresh token ：" + JSONObject.toJSONString(refreshRes));
+            } catch (Exception e) {
+                System.err.println("refresh token 出错：" + e.getMessage());
+            }
+
+            // 测试回收令牌的接口
+            try {
+                JapResponse revokeRes = socialStrategy.revokeToken(config, authToken);
+                System.out.println("revoke token：" + JSONObject.toJSONString(revokeRes));
+            } catch (Exception e) {
+                System.err.println("revoke token 出错：" + e.getMessage());
+            }
+        }
         return ViewUtil.getView(japResponse);
     }
 

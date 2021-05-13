@@ -20,7 +20,6 @@ public class ViewUtil {
         if (japResponse.isRedirectUrl()) {
             return new ModelAndView(new RedirectView((String) japResponse.getData()));
         } else {
-            System.out.println(japResponse.getData());
             return new ModelAndView(new RedirectView("/"));
         }
     }
