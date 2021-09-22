@@ -6,6 +6,8 @@ import com.fujieid.jap.core.JapUserService;
 import com.fujieid.jap.core.result.JapResponse;
 import com.fujieid.jap.demo.config.JapConfigContext;
 import com.fujieid.jap.demo.util.ViewUtil;
+import com.fujieid.jap.http.jakarta.JakartaRequestAdapter;
+import com.fujieid.jap.http.jakarta.JakartaResponseAdapter;
 import com.fujieid.jap.social.SocialConfig;
 import com.fujieid.jap.social.SocialStrategy;
 import me.zhyd.oauth.config.AuthConfig;
@@ -50,7 +52,7 @@ public class SocialController implements InitializingBean {
                 .clientSecret("016f88fbff2d178263c4060c46168f4937153120a310adc21980e7838b76e833")
                 .redirectUri("http://sso.jap.com:8443/social/login/gitee")
                 .build());
-        JapResponse japResponse = socialStrategy.authenticate(config, request, response);
+        JapResponse japResponse = socialStrategy.authenticate(config, new JakartaRequestAdapter(request), new JakartaResponseAdapter(response));
         if (japResponse.isSuccess() && !japResponse.isRedirectUrl()) {
             JapUser japUser = (JapUser) japResponse.getData();
             AuthUser authUser = (AuthUser) japUser.getAdditional();

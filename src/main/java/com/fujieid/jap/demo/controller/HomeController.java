@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fujieid.jap.core.JapUser;
 import com.fujieid.jap.core.context.JapAuthentication;
 import com.fujieid.jap.demo.config.JapConfigContext;
+import com.fujieid.jap.http.jakarta.JakartaRequestAdapter;
+import com.fujieid.jap.http.jakarta.JakartaResponseAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -34,7 +36,7 @@ public class HomeController {
     }
 
     private void toIndex(Model model, HttpServletRequest request, HttpServletResponse response) {
-        JapUser japUser = JapAuthentication.getUser(request, response);
+        JapUser japUser = JapAuthentication.getUser(new JakartaRequestAdapter(request), new JakartaResponseAdapter(response));
         if (null != japUser) {
             model.addAttribute("userJson", claimsToJson(japUser));
         }
@@ -44,7 +46,7 @@ public class HomeController {
 
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
-        JapAuthentication.logout(request, response);
+        JapAuthentication.logout(new JakartaRequestAdapter(request), new JakartaResponseAdapter(response));
         return "redirect:/";
     }
 

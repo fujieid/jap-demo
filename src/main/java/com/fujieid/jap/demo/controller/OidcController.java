@@ -4,6 +4,8 @@ import com.fujieid.jap.core.JapUserService;
 import com.fujieid.jap.core.result.JapResponse;
 import com.fujieid.jap.demo.config.JapConfigContext;
 import com.fujieid.jap.demo.util.ViewUtil;
+import com.fujieid.jap.http.jakarta.JakartaRequestAdapter;
+import com.fujieid.jap.http.jakarta.JakartaResponseAdapter;
 import com.fujieid.jap.oauth2.Oauth2GrantType;
 import com.fujieid.jap.oauth2.Oauth2ResponseType;
 import com.fujieid.jap.oidc.OidcConfig;
@@ -47,9 +49,9 @@ public class OidcController implements InitializingBean {
                 .setClientSecret("xx")
                 .setCallbackUrl("http://sso.jap.com:8443/oidc/login/jai")
                 .setScopes(new String[]{"read", "write"})
-                .setResponseType(Oauth2ResponseType.code)
-                .setGrantType(Oauth2GrantType.authorization_code);
-        JapResponse japResponse = oidcStrategy.authenticate(config, request, response);
+                .setResponseType(Oauth2ResponseType.CODE)
+                .setGrantType(Oauth2GrantType.AUTHORIZATION_CODE);
+        JapResponse japResponse = oidcStrategy.authenticate(config, new JakartaRequestAdapter(request), new JakartaResponseAdapter(response));
         return ViewUtil.getView(japResponse);
     }
 

@@ -16,7 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <jap.version>1.0.2</jap.version>
+        <jap.version>1.0.5</jap.version>
     </properties>
 
     <dependencies>

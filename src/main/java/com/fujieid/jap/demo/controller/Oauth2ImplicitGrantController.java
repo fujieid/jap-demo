@@ -4,6 +4,8 @@ import com.fujieid.jap.core.JapUserService;
 import com.fujieid.jap.core.result.JapResponse;
 import com.fujieid.jap.demo.config.JapConfigContext;
 import com.fujieid.jap.demo.util.ViewUtil;
+import com.fujieid.jap.http.jakarta.JakartaRequestAdapter;
+import com.fujieid.jap.http.jakarta.JakartaResponseAdapter;
 import com.fujieid.jap.oauth2.OAuthConfig;
 import com.fujieid.jap.oauth2.Oauth2ResponseType;
 import com.fujieid.jap.oauth2.Oauth2Strategy;
@@ -49,8 +51,8 @@ public class Oauth2ImplicitGrantController implements InitializingBean {
                 .setUserinfoUrl("xx")
                 .setScopes(new String[]{"read", "write"})
                 // 修改 ResponseType 为 Token 模式
-                .setResponseType(Oauth2ResponseType.token);
-        JapResponse japResponse = oauth2Strategy.authenticate(config, request, response);
+                .setResponseType(Oauth2ResponseType.TOKEN);
+        JapResponse japResponse = oauth2Strategy.authenticate(config, new JakartaRequestAdapter(request), new JakartaResponseAdapter(response));
         return ViewUtil.getView(japResponse);
     }
 

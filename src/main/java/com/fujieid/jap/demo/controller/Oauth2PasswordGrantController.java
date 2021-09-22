@@ -4,6 +4,8 @@ import com.fujieid.jap.core.JapUserService;
 import com.fujieid.jap.core.result.JapResponse;
 import com.fujieid.jap.demo.config.JapConfigContext;
 import com.fujieid.jap.demo.util.ViewUtil;
+import com.fujieid.jap.http.jakarta.JakartaRequestAdapter;
+import com.fujieid.jap.http.jakarta.JakartaResponseAdapter;
 import com.fujieid.jap.oauth2.OAuthConfig;
 import com.fujieid.jap.oauth2.Oauth2GrantType;
 import com.fujieid.jap.oauth2.Oauth2Strategy;
@@ -50,11 +52,11 @@ public class Oauth2PasswordGrantController implements InitializingBean {
                 .setUserinfoUrl("xx")
                 .setScopes(new String[]{"read", "write"})
                 // GrantType 设为 password
-                .setGrantType(Oauth2GrantType.password)
+                .setGrantType(Oauth2GrantType.PASSWORD)
                 // 指定账号密码
                 .setUsername("xx")
                 .setPassword("xx");
-        JapResponse japResponse = oauth2Strategy.authenticate(config, request, response);
+        JapResponse japResponse = oauth2Strategy.authenticate(config, new JakartaRequestAdapter(request), new JakartaResponseAdapter(response));
         return ViewUtil.getView(japResponse);
     }
 

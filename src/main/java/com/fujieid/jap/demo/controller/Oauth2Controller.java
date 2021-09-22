@@ -4,6 +4,8 @@ import com.fujieid.jap.core.JapUserService;
 import com.fujieid.jap.core.result.JapResponse;
 import com.fujieid.jap.demo.config.JapConfigContext;
 import com.fujieid.jap.demo.util.ViewUtil;
+import com.fujieid.jap.http.jakarta.JakartaRequestAdapter;
+import com.fujieid.jap.http.jakarta.JakartaResponseAdapter;
 import com.fujieid.jap.oauth2.*;
 import me.zhyd.oauth.utils.UuidUtils;
 import org.springframework.beans.factory.InitializingBean;
@@ -46,9 +48,9 @@ public class Oauth2Controller implements InitializingBean {
                 .setTokenUrl("xx")
                 .setUserinfoUrl("xx")
                 .setScopes(new String[]{"read", "write"})
-                .setResponseType(Oauth2ResponseType.code)
-                .setGrantType(Oauth2GrantType.authorization_code);
-        JapResponse japResponse = oauth2Strategy.authenticate(config, request, response);
+                .setResponseType(Oauth2ResponseType.CODE)
+                .setGrantType(Oauth2GrantType.AUTHORIZATION_CODE);
+        JapResponse japResponse = oauth2Strategy.authenticate(config, new JakartaRequestAdapter(request), new JakartaResponseAdapter(response));
         return ViewUtil.getView(japResponse);
     }
 
@@ -73,10 +75,10 @@ public class Oauth2Controller implements InitializingBean {
                 .setTokenUrl("https://gitlab.com/oauth/token")
                 .setUserinfoUrl("https://gitlab.com/api/v4/user")
                 .setScopes(new String[]{"read_user", "openid", "profile", "email"})
-                .setResponseType(Oauth2ResponseType.code)
-                .setGrantType(Oauth2GrantType.authorization_code)
+                .setResponseType(Oauth2ResponseType.CODE)
+                .setGrantType(Oauth2GrantType.AUTHORIZATION_CODE)
                 .setUserInfoEndpointMethodType(Oauth2EndpointMethodType.GET);
-        JapResponse japResponse = oauth2Strategy.authenticate(config, request, response);
+        JapResponse japResponse = oauth2Strategy.authenticate(config, new JakartaRequestAdapter(request), new JakartaResponseAdapter(response));
         return ViewUtil.getView(japResponse);
     }
 

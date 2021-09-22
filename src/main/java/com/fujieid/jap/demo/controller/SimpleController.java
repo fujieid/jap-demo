@@ -5,6 +5,8 @@ import com.fujieid.jap.core.context.JapAuthentication;
 import com.fujieid.jap.core.result.JapResponse;
 import com.fujieid.jap.demo.config.JapConfigContext;
 import com.fujieid.jap.demo.util.ViewUtil;
+import com.fujieid.jap.http.jakarta.JakartaRequestAdapter;
+import com.fujieid.jap.http.jakarta.JakartaResponseAdapter;
 import com.fujieid.jap.simple.SimpleConfig;
 import com.fujieid.jap.simple.SimpleStrategy;
 import org.springframework.beans.factory.InitializingBean;
@@ -37,7 +39,7 @@ public class SimpleController implements InitializingBean {
     @GetMapping("/login")
     public String toLogin(HttpServletRequest request, HttpServletResponse response) {
         JapConfigContext.strategy = "simple";
-        if (JapAuthentication.checkUser(request, response).isSuccess()) {
+        if (JapAuthentication.checkUser(new JakartaRequestAdapter(request), new JakartaResponseAdapter(response)).isSuccess()) {
             return "redirect:/";
         }
         return "login";
@@ -46,7 +48,7 @@ public class SimpleController implements InitializingBean {
     @PostMapping("/login")
     public ModelAndView renderAuth(HttpServletRequest request, HttpServletResponse response) {
         JapResponse japResponse = simpleStrategy.authenticate(new SimpleConfig()
-                .setRememberMeCookieDomain("jap.com"), request, response);
+                .setRememberMeCookieDomain("jap.com"), new JakartaRequestAdapter(request), new JakartaResponseAdapter(response));
         return ViewUtil.getView(japResponse);
     }
 
